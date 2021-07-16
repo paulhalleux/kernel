@@ -1,0 +1,6 @@
+name: Kernel
+version: ${project.version}
+main: be.kauzas.kernel.Kernel
+api-version: 1.13
+authors: [Kauzas]
+description: Kernal plugin for creating other plugins easily
