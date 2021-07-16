@@ -13,6 +13,9 @@ import org.reflections.Reflections;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service that register {@link AbstractCommand}.
+ */
 public class CommandService extends ReflectionService<AbstractCommand> {
 
     private final List<AbstractCommand> commands;
