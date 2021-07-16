@@ -1,11 +1,14 @@
 package be.kauzas.kernel.commands;
 
 import be.kauzas.kernel.BasePlugin;
+import be.kauzas.kernel.events.command.CommandExecuteEvent;
 import be.kauzas.kernel.options.Restricted;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -32,16 +35,19 @@ public class CommandHandler implements Handler {
         List<AbstractCommand> commands = plugin.getCommandService().getItems();
         for (AbstractCommand abstractCommand : commands) {
             if (abstractCommand.hasTrigger(command.getName())) {
-                return handle(abstractCommand, sender, args);
+                return handle(abstractCommand, sender, label, args);
             }
         }
         return false;
     }
 
     @Override
-    public boolean handle(AbstractCommand abstractCommand, CommandSender sender, String[] args) {
+    public boolean handle(AbstractCommand abstractCommand, CommandSender sender, String trigger, String[] args) {
         CommandInfo infos = abstractCommand.getInfos();
-        if (infos.sender().equals(ConsoleCommandSender.class) || infos.sender().isAssignableFrom(sender.getClass())) {
+        CommandInfo.Sender allowed = infos.sender();
+        if (allowed == CommandInfo.Sender.BOTH
+                || (allowed == CommandInfo.Sender.PLAYER && sender instanceof Player)
+                || (allowed == CommandInfo.Sender.CONSOLE && sender instanceof ConsoleCommandSender)) {
             if (abstractCommand instanceof Restricted) {
                 Restricted restricted = (Restricted) abstractCommand;
                 if (!restricted.hasPermission(sender)) {
@@ -50,6 +56,7 @@ public class CommandHandler implements Handler {
                 }
             }
             abstractCommand.execute(sender, args);
+            Bukkit.getPluginManager().callEvent(new CommandExecuteEvent(abstractCommand, sender, trigger));
         }
         return false;
     }

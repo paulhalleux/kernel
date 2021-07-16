@@ -1,7 +1,6 @@
 package be.kauzas.kernel.commands;
 
 import be.kauzas.kernel.service.ReflectionService;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,16 +18,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface CommandInfo {
 
+    public enum Sender {PLAYER, CONSOLE, BOTH}
+
     /**
      * Get who can execute the command.
-     * If the value is {@link Player#getClass()} every one
-     * can execute the command.
-     * <p>
-     * Value is commonly {@link Player} or {@link ConsoleCommandSender}.
      *
      * @return CommandSender who can execute the command.
+     * @see Sender
      */
-    Class<? extends CommandSender> sender() default Player.class;
+    Sender sender() default Sender.BOTH;
 
     /**
      * Define if the command has to be registered

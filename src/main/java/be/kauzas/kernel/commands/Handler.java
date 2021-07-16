@@ -13,9 +13,10 @@ public interface Handler extends CommandExecutor {
      *
      * @param abstractCommand Executed command.
      * @param sender          Sender of the command.
+     * @param trigger         Trigger used to execute command.
      * @param args            Arguments of the command.
      * @return Execution state.
      */
-    boolean handle(AbstractCommand abstractCommand, CommandSender sender, String[] args);
+    boolean handle(AbstractCommand abstractCommand, CommandSender sender, String trigger, String[] args);
 
 }
