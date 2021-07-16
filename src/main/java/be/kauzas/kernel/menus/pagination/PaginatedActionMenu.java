@@ -25,7 +25,7 @@ public abstract class PaginatedActionMenu<T> extends PaginatedMenu<T> {
     private final ActionItem[] items;
 
     /**
-     * Constructor of {@link PaginatedActionMenu} asking for menu informations
+     * Constructor of {@link PaginatedActionMenu} asking for menu information
      * and item list.
      *
      * @param uniqueId      Inventory unique identifier used to recognise the inventory in
@@ -34,7 +34,7 @@ public abstract class PaginatedActionMenu<T> extends PaginatedMenu<T> {
      * @param inventoryType Type type of the inventory from {@link InventoryType} enum.
      * @param pagination    Pagination policy with both pagination items.
      * @param items         List of items to paginate.
-     * @param perPage       Amout of items per page.
+     * @param perPage       Amount of items per page.
      * @param actionItems   List of {@link ActionItem} to display in the inventory.
      */
     public PaginatedActionMenu(String uniqueId, String title, InventoryType inventoryType, Pagination pagination, List<T> items, int perPage, ActionItem[] actionItems) {
@@ -43,7 +43,7 @@ public abstract class PaginatedActionMenu<T> extends PaginatedMenu<T> {
     }
 
     /**
-     * Constructor of {@link PaginatedActionMenu} asking for menu informations
+     * Constructor of {@link PaginatedActionMenu} asking for menu information
      * and item list.
      *
      * @param uniqueId    Inventory unique identifier used to recognise the inventory in
@@ -52,7 +52,7 @@ public abstract class PaginatedActionMenu<T> extends PaginatedMenu<T> {
      * @param size        Size of the inventory.
      * @param pagination  Pagination policy with both pagination items.
      * @param items       List of items to paginate.
-     * @param perPage     Amout of items per page.s
+     * @param perPage     Amount of items per page.s
      * @param actionItems List of {@link ActionItem} to display in the inventory.
      */
     public PaginatedActionMenu(String uniqueId, String title, int size, Pagination pagination, List<T> items, int perPage, ActionItem[] actionItems) {

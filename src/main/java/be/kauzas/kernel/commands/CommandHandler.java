@@ -2,6 +2,7 @@ package be.kauzas.kernel.commands;
 
 import be.kauzas.kernel.BasePlugin;
 import be.kauzas.kernel.events.command.CommandExecuteEvent;
+import be.kauzas.kernel.events.command.CommandPermissionDeniedEvent;
 import be.kauzas.kernel.options.Restricted;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -52,6 +53,7 @@ public class CommandHandler implements Handler {
                 Restricted restricted = (Restricted) abstractCommand;
                 if (!restricted.hasPermission(sender)) {
                     restricted.onPermissionDenied(sender);
+                    Bukkit.getPluginManager().callEvent(new CommandPermissionDeniedEvent(abstractCommand, sender));
                     return false;
                 }
             }

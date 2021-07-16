@@ -4,7 +4,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Object that represent a pagination item for
- * a {@link PaginatedMenu}. That object can be instanciated in
+ * a {@link PaginatedMenu}. That object can be instantiated in
  * a custom {@link Pagination} class to tell the menu
  * how to handle page change.
  */

@@ -52,7 +52,7 @@ public abstract class CompositeCommand extends AbstractCommand {
                 .filter(command -> (command instanceof SubCommand && ((SubCommand) command).getBase() == getClass()))
                 .collect(Collectors.toList())) {
             if (subCommand.hasTrigger(args[0])) {
-                plugin.getCommandHandler().handle(subCommand, sender, Arrays.copyOfRange(args, 1, args.length));
+                plugin.getCommandHandler().handle(subCommand, sender, args[0], Arrays.copyOfRange(args, 1, args.length));
                 break;
             }
         }

@@ -4,7 +4,7 @@ import be.kauzas.kernel.menus.AbstractMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 /**
- * Fonctional interface that can represent a click action
+ * Functional interface that can represent a click action
  * in an {@link AbstractMenu} and particularly in {@link ActionMenu}.
  */
 @FunctionalInterface

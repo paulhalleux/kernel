@@ -5,6 +5,7 @@ import be.kauzas.kernel.events.menus.MenuPermissionDeniedEvent;
 import be.kauzas.kernel.options.Backable;
 import be.kauzas.kernel.options.Restricted;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -160,8 +161,8 @@ public abstract class AbstractMenu {
 
     /**
      * Check players restrictions for {@link Restricted} menus and
-     * call {@link Restricted#onPermissionDenied(Player)} if player
-     * does not pass the {@link Restricted#hasPermission(Player)} method.
+     * call {@link Restricted#onPermissionDenied(CommandSender)} if player
+     * does not pass the {@link Restricted#hasPermission(CommandSender)} method.
      *
      * @param player Player that want to open menu.
      * @return true if player has permission, otherwise false.
