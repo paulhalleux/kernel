@@ -8,6 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Collection of completion preset.
+ * (pre-made list of arguments)
+ */
 public class CompletionPreset {
 
     public static final List<String> PLAYERS = Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());

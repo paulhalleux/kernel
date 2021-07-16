@@ -1,5 +1,6 @@
 package be.kauzas.kernel.commands.completion;
 
+import be.kauzas.kernel.commands.AbstractCommand;
 import be.kauzas.kernel.exceptions.EmptyArgumentListException;
 import be.kauzas.kernel.utils.Builder;
 import org.bukkit.command.CommandSender;
@@ -11,15 +12,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Builder that create a {@link TabCompleter} for an {@link AbstractCommand}.
+ */
 public class CompletionBuilder implements Builder<TabCompleter> {
 
     private final List<CompletionArgument> arguments;
     private CompletionArgument last;
 
+    /**
+     * Constructor of {@link CompletionBuilder}.
+     */
     public CompletionBuilder() {
         this.arguments = new LinkedList<>();
     }
 
+    /**
+     * Add a root argument to the completion.
+     *
+     * @param arg        Argument name.
+     * @param permission Argument permission.
+     * @return Current builder.
+     */
     public CompletionBuilder addArgument(String arg, String permission) {
         CompletionArgument argument = new CompletionArgument(arg, permission, new ArrayList<>());
         last = argument;
@@ -27,16 +41,34 @@ public class CompletionBuilder implements Builder<TabCompleter> {
         return this;
     }
 
+    /**
+     * Add a root argument to the completion.
+     *
+     * @param arg Argument name.
+     * @return Current builder.
+     */
     public CompletionBuilder addArgument(String arg) {
         return addArgument(arg, null);
     }
 
+    /**
+     * Select the last added argument and return
+     * an {@link ArgumentBuilder} for this argument.
+     *
+     * @return ArgumentBuilder for the last added argument.
+     */
     public ArgumentBuilder select() {
         if (last == null)
             throw new EmptyArgumentListException("Cannot select last added argument with empty argument list.");
         return new ArgumentBuilder(last, this);
     }
 
+    /**
+     * Build a {@link TabCompleter} based on the list of arguments and
+     * their sub arguments.
+     *
+     * @return Built {@link TabCompleter}.
+     */
     @Override
     public TabCompleter build() {
         return (commandSender, command, s, args) -> {
@@ -66,10 +98,24 @@ public class CompletionBuilder implements Builder<TabCompleter> {
         }
     }
 
+    /**
+     * Check if the command sender has permission for
+     * a certain {@link CompletionArgument}.
+     *
+     * @param sender             Command sender.
+     * @param completionArgument Argument.
+     * @return true if the sender has permission, otherwise false.
+     */
     private boolean hasPermission(CommandSender sender, CompletionArgument completionArgument) {
         return completionArgument.getPermission() == null || sender.hasPermission(completionArgument.getPermission());
     }
 
+    /**
+     * Get the list of root arguments for the
+     * completer.
+     *
+     * @return List of {@link CompletionArgument}.
+     */
     public List<CompletionArgument> getArguments() {
         return arguments;
     }
