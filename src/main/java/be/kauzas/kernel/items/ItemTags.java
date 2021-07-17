@@ -1,4 +1,4 @@
-package be.kauzas.kernel.utils;
+package be.kauzas.kernel.items;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;

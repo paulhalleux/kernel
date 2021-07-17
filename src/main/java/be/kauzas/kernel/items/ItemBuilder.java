@@ -1,5 +1,7 @@
-package be.kauzas.kernel.utils;
+package be.kauzas.kernel.items;
 
+import be.kauzas.kernel.utils.Builder;
+import be.kauzas.kernel.utils.ChatUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.apache.commons.lang.Validate;
@@ -16,6 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +33,7 @@ public class ItemBuilder implements Builder<ItemStack> {
 
     private final ItemStack itemStack;
     private ItemMeta itemMeta;
+    private String rarity;
 
     /**
      * Constructor of {@link ItemBuilder} asking for the
@@ -298,12 +302,46 @@ public class ItemBuilder implements Builder<ItemStack> {
     }
 
     /**
+     * Set item rarity.
+     * <p>
+     * Will add a lore line at the end of the lore.
+     *
+     * @param rarity Rarity of the item.
+     * @return Current builder.
+     * @see ItemRarity
+     */
+    public ItemBuilder setRarity(ItemRarity rarity) {
+        this.rarity = rarity.getTag();
+        return this;
+    }
+
+    /**
+     * Set item rarity.
+     * <p>
+     * Will add a lore line at the end of the lore.
+     *
+     * @param rarity Rarity of the item.
+     * @return Current builder.
+     */
+    public ItemBuilder setRarity(String rarity) {
+        this.rarity = color(rarity);
+        return this;
+    }
+
+    /**
      * Build the final {@link ItemStack}.
      *
      * @return Built {@link ItemStack}.
      */
     @Override
     public ItemStack build() {
+        if (rarity != null) {
+            if (itemMeta.getLore() == null) itemMeta.setLore(new ArrayList<>());
+            if (!itemMeta.getLore().isEmpty())
+                itemMeta.getLore().add(" ");
+            itemMeta.getLore().add(rarity);
+        }
+
         this.itemStack.setItemMeta(this.itemMeta);
         return itemStack;
     }
