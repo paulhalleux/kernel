@@ -1,5 +1,6 @@
 package be.kauzas.kernel.items;
 
+import be.kauzas.kernel.enchantment.AbstractEnchantment;
 import be.kauzas.kernel.utils.Builder;
 import be.kauzas.kernel.utils.ChatUtils;
 import com.mojang.authlib.GameProfile;
@@ -153,7 +154,23 @@ public class ItemBuilder implements Builder<ItemStack> {
      * @return Current builder.
      */
     public ItemBuilder addEnchantment(Enchantment enchantment, int level) {
-        this.itemStack.addUnsafeEnchantment(enchantment, level);
+        this.itemMeta.addEnchant(enchantment, level, true);
+        return this;
+    }
+
+    /**
+     * Add an enchantment to the item.
+     *
+     * @param enchantment {@link Enchantment} to add.
+     * @param level       Level of the enchantment.
+     * @return Current builder.
+     */
+    public ItemBuilder addEnchantment(Class<? extends AbstractEnchantment> enchantment, int level) {
+        try {
+            this.itemMeta.addEnchant(Enchantment.getByKey(enchantment.newInstance().getKey()), level, true);
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
         return this;
     }
 
@@ -336,10 +353,12 @@ public class ItemBuilder implements Builder<ItemStack> {
     @Override
     public ItemStack build() {
         if (rarity != null) {
-            if (itemMeta.getLore() == null) itemMeta.setLore(new ArrayList<>());
-            if (!itemMeta.getLore().isEmpty())
-                itemMeta.getLore().add(" ");
-            itemMeta.getLore().add(rarity);
+            List<String> lore = itemMeta.getLore();
+            if (lore == null) lore = new ArrayList<>();
+            if (!lore.isEmpty())
+                lore.add(" ");
+            lore.add(rarity);
+            itemMeta.setLore(lore);
         }
 
         this.itemStack.setItemMeta(this.itemMeta);

@@ -1,5 +1,9 @@
 package be.kauzas.kernel.items;
 
+/**
+ * Enum for the common
+ * item rarity.
+ */
 public enum ItemRarity {
 
     COMMON("§f§lCOMMUN"),
@@ -10,18 +14,22 @@ public enum ItemRarity {
     MYTHIC("§d§lMYTHIQUE"),
     UNOBTAINABLE("§4§lINOBTENABLE");
 
-    private String tag;
+    private final String tag;
 
+    /**
+     * Constructor of {@link ItemRarity}.
+     */
     ItemRarity(String tag) {
         this.tag = tag;
     }
 
+    /**
+     * Get the tag of the rarity.
+     *
+     * @return Tag of the rarity.
+     */
     public String getTag() {
         return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
     }
 
 }

@@ -1,5 +1,9 @@
 package be.kauzas.kernel.utils;
 
+/**
+ * Utility class that contains colors
+ * for console printing.
+ */
 public class ConsoleColor {
 
     public static final String RESET = "\u001B[0m";
