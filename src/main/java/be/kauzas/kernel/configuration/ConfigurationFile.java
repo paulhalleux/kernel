@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Objects;
 
 /**
@@ -62,6 +63,11 @@ public class ConfigurationFile {
 
         File f = new File(this.plugin.getDataFolder(), this.name);
         if (!f.exists()) {
+            try {
+                Files.createDirectories(f.toPath().getParent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.plugin.getResource(this.name) != null)
                 FileUtils.copy(Objects.requireNonNull(this.plugin.getResource(this.name)), f);
 
@@ -72,8 +78,11 @@ public class ConfigurationFile {
         this.fileConfiguration.options().copyDefaults(true);
 
         if (updateNew || updateOld) {
-            File origin = new File(this.name);
+            File container = new File(this.plugin.getDataFolder().getPath() + "/temp");
+            container.mkdir();
+            File origin = new File(this.plugin.getDataFolder().getPath() + "/temp/" + this.name);
             try {
+                Files.createDirectories(origin.toPath().getParent());
                 FileUtils.copyInputStreamToFile(this.plugin.getResource(this.name), origin);
                 if (origin.exists()) {
                     FileConfiguration originConfig = YamlConfiguration.loadConfiguration(origin);
@@ -89,9 +98,20 @@ public class ConfigurationFile {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                deleteDirectory(container);
             }
-            origin.delete();
         }
+    }
+
+    private boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        return directoryToBeDeleted.delete();
     }
 
     /**

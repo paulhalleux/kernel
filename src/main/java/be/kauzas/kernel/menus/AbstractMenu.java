@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Represent a inventory menu with
@@ -177,6 +178,29 @@ public abstract class AbstractMenu {
             }
         }
         return true;
+    }
+
+    /**
+     * Fill slots of the inventory with an item.
+     *
+     * @param itemStack Fill item.
+     * @param emptyOnly true if you want to fill empty slots only.
+     */
+    public void fill(ItemStack itemStack, boolean emptyOnly) {
+        for (int i = 0; i < inventory.getSize(); i++) {
+            if (emptyOnly && inventory.getItem(i) != null) continue;
+            inventory.setItem(i, itemStack);
+        }
+    }
+
+    /**
+     * Fill all empty slots of the inventory
+     * with an item.
+     *
+     * @param itemStack Fill item.
+     */
+    public void fill(ItemStack itemStack) {
+        fill(itemStack, true);
     }
 
 }
