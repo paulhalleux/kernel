@@ -3,6 +3,7 @@ package be.kauzas.kernel.items;
 import be.kauzas.kernel.enchantment.AbstractEnchantment;
 import be.kauzas.kernel.utils.Builder;
 import be.kauzas.kernel.utils.ChatUtils;
+import be.kauzas.kernel.utils.LangProvider;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.apache.commons.lang.Validate;
@@ -35,6 +36,7 @@ public class ItemBuilder implements Builder<ItemStack> {
     private final ItemStack itemStack;
     private ItemMeta itemMeta;
     private String rarity;
+    private List<String> lore = new ArrayList<>();
 
     /**
      * Constructor of {@link ItemBuilder} asking for the
@@ -66,8 +68,9 @@ public class ItemBuilder implements Builder<ItemStack> {
      * @param itemStack {@link ItemStack} to edit.
      */
     public ItemBuilder(ItemStack itemStack) {
-        this.itemStack = itemStack;
-        this.itemMeta = itemStack.getItemMeta();
+        this.itemStack = itemStack.clone();
+        this.lore = this.itemStack.getItemMeta().getLore();
+        this.itemMeta = this.itemStack.getItemMeta();
     }
 
     /**
@@ -77,7 +80,18 @@ public class ItemBuilder implements Builder<ItemStack> {
      * @return Current builder.
      */
     public ItemBuilder setName(String name) {
-        itemMeta.setDisplayName(color(name));
+        if (name != null) itemMeta.setDisplayName(color(name));
+        return this;
+    }
+
+    /**
+     * Define a custom display name for the item.
+     *
+     * @param name Name of the item.
+     * @return Current builder.
+     */
+    public ItemBuilder setName(LangProvider name) {
+        if (name != null) itemMeta.setDisplayName(color(name.get()[0]));
         return this;
     }
 
@@ -88,8 +102,10 @@ public class ItemBuilder implements Builder<ItemStack> {
      * @return Current builder.
      */
     public ItemBuilder setLore(List<String> lore) {
-        List<String> coloredLore = lore.stream().map(ChatUtils::color).collect(Collectors.toList());
-        itemMeta.setLore(coloredLore);
+        if (lore != null) {
+            List<String> coloredLore = lore.stream().map(ChatUtils::color).collect(Collectors.toList());
+            this.lore = coloredLore;
+        }
         return this;
     }
 
@@ -100,7 +116,55 @@ public class ItemBuilder implements Builder<ItemStack> {
      * @return Current builder.
      */
     public ItemBuilder setLore(String... lore) {
+        if (lore == null) return this;
         return setLore(Arrays.asList(lore));
+    }
+
+    /**
+     * Define a custom lore for the item.
+     *
+     * @param lore Lang of lore lines.
+     * @return Current builder.
+     */
+    public ItemBuilder setLore(LangProvider lore) {
+        if (lore == null) return this;
+        return setLore(lore.get());
+    }
+
+    /**
+     * Add a line to the lore.
+     *
+     * @param line Lore line.
+     * @return Current builder.
+     */
+    public ItemBuilder addLore(String line) {
+        if (lore == null) lore = new ArrayList<>();
+        lore.add(line);
+        return this;
+    }
+
+    /**
+     * Add a line to the lore.
+     *
+     * @param lines Lore lines.
+     * @return Current builder.
+     */
+    public ItemBuilder addLore(String... lines) {
+        if (lore == null) lore = new ArrayList<>();
+        lore.addAll(Arrays.asList(lines));
+        return this;
+    }
+
+    /**
+     * Add a line to the lore.
+     *
+     * @param line Lore line.
+     * @return Current builder.
+     */
+    public ItemBuilder addLore(LangProvider line) {
+        if (lore == null) lore = new ArrayList<>();
+        lore.addAll(Arrays.asList(line.get()));
+        return this;
     }
 
     /**
@@ -353,13 +417,11 @@ public class ItemBuilder implements Builder<ItemStack> {
     @Override
     public ItemStack build() {
         if (rarity != null) {
-            List<String> lore = itemMeta.getLore();
-            if (lore == null) lore = new ArrayList<>();
             if (!lore.isEmpty())
                 lore.add(" ");
             lore.add(rarity);
-            itemMeta.setLore(lore);
         }
+        itemMeta.setLore(lore);
 
         this.itemStack.setItemMeta(this.itemMeta);
         return itemStack;
