@@ -78,9 +78,9 @@ public class MessageBuilder implements Builder<String> {
      * @param replacement replacement.
      * @return current builder.
      */
-    public MessageBuilder replace(String target, String replacement) {
+    public MessageBuilder replace(String target, Object replacement) {
         for (int i = 0; i < strings.length; i++) {
-            strings[i] = strings[i].replace(target, replacement);
+            strings[i] = strings[i].replace(target, replacement.toString());
         }
         return this;
     }
@@ -92,9 +92,9 @@ public class MessageBuilder implements Builder<String> {
      * @param replacement replacement.
      * @return current builder.
      */
-    public MessageBuilder replaceAll(String target, String replacement) {
+    public MessageBuilder replaceAll(String target, Object replacement) {
         for (int i = 0; i < strings.length; i++) {
-            strings[i] = strings[i].replaceAll(target, replacement);
+            strings[i] = strings[i].replaceAll(target, replacement.toString());
         }
         return this;
     }
@@ -106,9 +106,9 @@ public class MessageBuilder implements Builder<String> {
      * @param replacement replacement.
      * @return current builder.
      */
-    public MessageBuilder replaceFirst(String target, String replacement) {
+    public MessageBuilder replaceFirst(String target, Object replacement) {
         for (int i = 0; i < strings.length; i++) {
-            strings[i] = strings[i].replaceFirst(target, replacement);
+            strings[i] = strings[i].replaceFirst(target, replacement.toString());
         }
         return this;
     }

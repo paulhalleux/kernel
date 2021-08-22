@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class ChatUtils {
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("<#(\\w{5}[0-9a-f])>");
+    private static final Pattern HEX_PATTERN = Pattern.compile("<#([0-9a-fA-F]{6})>");
 
     /**
      * Translate color codes of the given string.
