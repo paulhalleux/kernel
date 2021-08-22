@@ -83,7 +83,7 @@ public class ArgumentBuilder {
         for (String s : preset) {
             if (then == null) base.addArgument(new CompletionArgument(s, permission, new ArrayList<>()));
             else {
-                ArgumentBuilder b = addSubArgument(s).select();
+                ArgumentBuilder b = addSubArgument(s, permission).select();
                 then.accept(b);
             }
         }

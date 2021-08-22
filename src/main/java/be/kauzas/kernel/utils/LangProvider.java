@@ -22,11 +22,11 @@ public interface LangProvider {
     String[] get(String[]... placeholders);
 
     /**
-     * Get an {@link HoldingString} from the base string.
+     * Get a {@link MessageBuilder} from the base string.
      *
-     * @return HoldingString for base string.
+     * @return MessageBuilder for base string.
      */
-    HoldingString getHolding();
+    MessageBuilder getBuilder();
 
     /**
      * Get the first string.

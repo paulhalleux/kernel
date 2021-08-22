@@ -55,18 +55,4 @@ public abstract class TimedRunnable extends AbstractRunnable {
         else cancel();
     }
 
-    /**
-     * Executes the abstract method with
-     * the current time.
-     */
-    @Override
-    public void execute() {
-        execute(getCurrentTime());
-    }
-
-    /**
-     * Code to be executed by the runnable.
-     */
-    public abstract void execute(int currentTime);
-
 }
