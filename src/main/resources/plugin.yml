@@ -3,4 +3,5 @@ version: ${project.version}
 main: be.kauzas.kernel.Kernel
 api-version: 1.13
 authors: [Kauzas]
+depend: [ProtocolLib]
 description: Kernal plugin for creating other plugins easily

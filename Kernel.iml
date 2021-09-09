@@ -40,5 +40,7 @@
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.26.0-GA" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.22" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.comphenix.protocol:ProtocolLib:4.7.0" level="project" />
+    <orderEntry type="library" name="Maven: net.bytebuddy:byte-buddy:1.11.0" level="project" />
   </component>
 </module>
